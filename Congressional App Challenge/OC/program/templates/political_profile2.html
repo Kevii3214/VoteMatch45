@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Political Profile</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #1877f2;
+            margin-bottom: 30px;
+        }
+        .profile-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .profile-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #4b4f56;
+        }
+        .profile-value {
+            font-size: 18px;
+            color: #1c1e21;
+        }
+        .score {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .retake-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            background-color: #1877f2;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .retake-button:hover {
+            background-color: #166fe5;
+        }
+    </style>
+</head>
+<body>
+    {% include 'topbar.html' %}
+    <div class="content">
+        <h2>Your Political Profile</h2>
+        {% if profile_dict %}
+            {% set total_score = total_score %}
+            {% for issue, value in profile_dict.items() %}
+                <div class="profile-item">
+                    <strong>{{ issue|replace('_', ' ')|title }}</strong>
+                    <span class="profile-value">
+                        {% set int_value = value|int %}
+                        <span class="score">Score: {{ int_value }}</span>
+                        {% if issue == 'abortion' %}
+                            {% if int_value <= 2 %}Strongly Pro-Choice
+                            {% elif int_value <= 4 %}Moderately Pro-Choice
+                            {% elif int_value <= 6 %}Neutral
+                            {% elif int_value <= 8 %}Moderately Pro-Life
+                            {% else %}Strongly Pro-Life
+                            {% endif %}
+                        {% elif issue == 'gun_control' %}
+                            {% if int_value <= 2 %}Strongly Pro-Gun Control
+                            {% elif int_value <= 4 %}Moderately Pro-Gun Control
+                            {% elif int_value <= 6 %}Neutral
+                            {% elif int_value <= 8 %}Moderately Anti-Gun Control
+                            {% else %}Strongly Anti-Gun Control
+                            {% endif %}
+                        {% elif issue == 'immigration' %}
+                            {% if int_value <= 2 %}Very Open Borders
+                            {% elif int_value <= 4 %}Moderately Open Borders
+                            {% elif int_value <= 6 %}Balanced Approach
+                            {% elif int_value <= 8 %}Moderately Closed Borders
+                            {% else %}Very Closed Borders
+                            {% endif %}
+                        {% elif issue == 'healthcare' %}
+                            {% if int_value <= 2 %}Strongly Pro-Public Healthcare
+                            {% elif int_value <= 4 %}Moderately Pro-Public Healthcare
+                            {% elif int_value <= 6 %}Mixed System
+                            {% elif int_value <= 8 %}Moderately Pro-Private Healthcare
+                            {% else %}Strongly Pro-Private Healthcare
+                            {% endif %}
+                        {% elif issue == 'taxes' %}
+                            {% if int_value <= 2 %}Strongly Pro-Higher Taxes
+                            {% elif int_value <= 4 %}Moderately Pro-Higher Taxes
+                            {% elif int_value <= 6 %}Balanced Tax Approach
+                            {% elif int_value <= 8 %}Moderately Pro-Lower Taxes
+                            {% else %}Strongly Pro-Lower Taxes
+                            {% endif %}
+                        {% elif issue == 'climate_change' %}
+                            {% if int_value <= 2 %}Very High Concern
+                            {% elif int_value <= 4 %}High Concern
+                            {% elif int_value <= 6 %}Moderate Concern
+                            {% elif int_value <= 8 %}Low Concern
+                            {% else %}Very Low Concern
+                            {% endif %}
+                        {% elif issue == 'lgbtq_rights' %}
+                            {% if int_value <= 2 %}Strongly Pro-LGBTQ+ Rights
+                            {% elif int_value <= 4 %}Moderately Pro-LGBTQ+ Rights
+                            {% elif int_value <= 6 %}Neutral
+                            {% elif int_value <= 8 %}Moderately Against LGBTQ+ Rights
+                            {% else %}Strongly Against LGBTQ+ Rights
+                            {% endif %}
+                        {% elif issue == 'voting_rights' %}
+                            {% if int_value <= 2 %}Strongly Pro-Expansion
+                            {% elif int_value <= 4 %}Moderately Pro-Expansion
+                            {% elif int_value <= 6 %}Status Quo
+                            {% elif int_value <= 8 %}Moderately Pro-Restriction
+                            {% else %}Strongly Pro-Restriction
+                            {% endif %}
+                        {% elif issue == 'marijuana' %}
+                            {% if int_value <= 2 %}Strongly Pro-Legalization
+                            {% elif int_value <= 4 %}Moderately Pro-Legalization
+                            {% elif int_value <= 6 %}Decriminalization
+                            {% elif int_value <= 8 %}Moderately Anti-Legalization
+                            {% else %}Strongly Anti-Legalization
+                            {% endif %}
+                        {% elif issue == 'education' %}
+                            {% if int_value <= 2 %}Strongly Pro-Public Education
+                            {% elif int_value <= 4 %}Moderately Pro-Public Education
+                            {% elif int_value <= 6 %}Balanced Approach
+                            {% elif int_value <= 8 %}Moderately Pro-Private Education
+                            {% else %}Strongly Pro-Private Education
+                            {% endif %}
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+            <div class="profile-item">
+                <strong>Potential Political Party</strong>
+                <span class="profile-value">
+                    {% if total_score <= 30 %}
+                        Potential Democratic Alignment
+                    {% elif total_score > 30 and total_score <= 70 %}
+                        Potential Independent Alignment
+                    {% else %}
+                        Potential Republican Alignment
+                    {% endif %}
+                </span>
+            </div>
+        {% else %}
+            <p>No profile data available. Please complete your political profile.</p>
+        {% endif %}
+        <a href="/retake" class="retake-button">Retake the Test</a>
+    </div>
+</body>
+</html>

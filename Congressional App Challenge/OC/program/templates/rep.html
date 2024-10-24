@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Representatives Candidates</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 20px;
+        }
+        .candidate {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 45%;
+        }
+        h1 {
+            color: #1877f2;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #1877f2;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin-bottom: 15px;
+        }
+        .info strong {
+            color: #4b4f56;
+        }
+        .topbar {
+            height: 35px;
+            line-height: 1.8;
+            overflow: visible;
+            position: relative;
+            z-index: 1000;
+        }
+        .candidate-photo {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            border: 5px solid;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+        }
+        .republican {
+            border-color: #FF0000;
+        }
+        .democrat {
+            border-color: #0000FF;
+        }
+        .more-info-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: #1877f2;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .more-info-button:hover {
+            background-color: #166fe5;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #333333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #555555;
+        }
+        .issue-comparison {
+            margin: 30px auto;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            max-width: 90%;
+            text-align: center;
+        }
+        .issue-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .issue-column {
+            width: 48%;
+        }
+        .issue {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .issue h3 {
+            color: #1877f2;
+            margin-bottom: 5px;
+        }
+        .position {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+        .position div {
+            width: 100%;
+        }
+        .user-preference {
+            margin-top: 10px;
+            font-style: italic;
+            color: #1877f2;
+        }
+        .candidate-name {
+            color: #1877f2;
+            text-decoration: none;
+        }
+        .candidate-name:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'topbar.html' %}
+    <h1>House of Representatives Candidates</h1>
+    <div class="container">
+        <div class="candidate">
+            <div class="photo-frame democrat">
+                <img src="{{ url_for('static', filename='image/DerekTran.png') }}" alt="Derek Tran" class="candidate-photo">
+            </div>
+            <h2><a href="https://www.derektranforcongress.com/about" class="candidate-name" target="_blank">Derek Tran</a></h2>
+            <div class="info"><strong>Party:</strong> Democratic</div>
+            <div class="info"><strong>Current Position:</strong> Attorney and small business owner</div>
+            <div class="info"><strong>Experience:</strong> Legal practice focusing on consumer protection, community advocacy</div>
+            <div class="info"><strong>Key Issues:</strong> Affordable healthcare, education funding, environmental protection</div>
+        </div>
+        <div class="candidate">
+            <div class="photo-frame republican">
+                <img src="{{ url_for('static', filename='image/MichelleSteel.png') }}" alt="Michelle Steel" class="candidate-photo">
+            </div>
+            <h2><a href="https://michellesteelca.com/" class="candidate-name" target="_blank">Michelle Steel</a></h2>
+            <div class="info"><strong>Party:</strong> Republican</div>
+            <div class="info"><strong>Current Position:</strong> U.S. Representative for California's 45th congressional district</div>
+            <div class="info"><strong>Experience:</strong> Member of the U.S. House of Representatives since 2021, former Orange County Supervisor</div>
+            <div class="info"><strong>Key Issues:</strong> Tax reform, small business support, healthcare accessibility</div>
+        </div>
+    </div>
+    <div class="issue-comparison">
+        <h2>Key Issues Comparison</h2>
+        <div class="issue-container">
+            <div class="issue-column">
+                <div class="issue">
+                    <h3>Abortion</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Nuanced pro-life stance with exceptions</div>
+                        <div><strong>Derek Tran:</strong> Unrestricted support for reproductive rights</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['abortion']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Immigration</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Prioritizes border security, opposes citizenship pathways</div>
+                        <div><strong>Derek Tran:</strong> Supports comprehensive reform and citizenship paths</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['immigration']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Education</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Advocates school choice, charters, and vouchers</div>
+                        <div><strong>Derek Tran:</strong> Emphasizes increased public education funding</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['education']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Taxes</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Supports lower taxes and reduced spending</div>
+                        <div><strong>Derek Tran:</strong> Favors progressive taxation for social programs</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['taxes']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Gun Control</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Opposes strict measures, supports 2nd Amendment</div>
+                        <div><strong>Derek Tran:</strong> Advocates comprehensive gun control measures</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['gun_control']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="issue-column">
+                <div class="issue">
+                    <h3>Healthcare</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Opposes universal healthcare, supports choice</div>
+                        <div><strong>Derek Tran:</strong> Views healthcare as a right, supports Medicare expansion</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['healthcare']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>LGBTQ+ Rights</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Conservative stance, opposes same-sex marriage</div>
+                        <div><strong>Derek Tran:</strong> Strong advocate for LGBTQ+ equality</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['lgbtq_rights']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Climate Change</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Balanced approach considering economy</div>
+                        <div><strong>Derek Tran:</strong> Prioritizes decisive climate action</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['climate_change']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Voting Rights</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Supports voter ID laws</div>
+                        <div><strong>Derek Tran:</strong> Advocates expanded voting access and protection</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['voting_rights']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="issue">
+                    <h3>Marijuana Legalization</h3>
+                    <div class="position">
+                        <div><strong>Michelle Steel:</strong> Cautious approach to legalization</div>
+                        <div><strong>Derek Tran:</strong> Supports legalization and regulation</div>
+                    </div>
+                    {% if logged_in %}
+                        <div class="user-preference">
+                            {% set int_value = profile_dict['marijuana']|int %}
+                            Based on your political profile, you probably side with: 
+                            {% if int_value <= 4 %}Derek Tran
+                            {% elif int_value >= 6 %}Michelle Steel
+                            {% else %}Undecided
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="https://calmatters.org/california-voter-guide-2024/us-house/#district-45" class="more-info-button" target="_blank">More Resources</a>
+    <a href="{{ url_for('candidates') }}" class="back-button">Back to Candidates</a>
+</body>
+</html>

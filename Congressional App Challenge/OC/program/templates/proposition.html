@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propositions</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #1877f2;
+            text-align: center;
+        }
+        .proposition {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .proposition h2 {
+            color: #1877f2;
+            margin-top: 0;
+        }
+        .proposition p {
+            margin-bottom: 15px;
+        }
+        .resources {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .resources h3 {
+            color: #1877f2;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1877f2;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #166fe5;
+        }
+        .endorsement {
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .democrat {
+            color: #0000FF;
+        }
+        .republican {
+            color: #FF0000;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    {% include 'topbar.html' %}
+    <div class="container">
+        <h1>Propositions</h1>
+        
+        <div class="proposition">
+            <h2>Proposition 2</h2>
+            <p>Authorizes $10 billion in bonds for school and community college construction and modernization, with $8.5 billion for K-12 schools and $1.5 billion for community colleges​</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/2/index.htm" target="_blank"class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: Yes</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 3</h2>
+            <p>Amends the state constitution to affirm the right to marry, regardless of sex or race, and removes outdated language restricting marriage to between a man and a woman​</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/3/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans: Neutral</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 4</h2>
+            <p>Issues $10 billion in bonds for climate initiatives, including water supply improvements, wildfire prevention, and sea level rise mitigation</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/4/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: No</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 5</h2>
+            <p>Lowers the voter threshold for local governments to approve bonds for affordable housing and infrastructure from two-thirds to 55%</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/5/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: No</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 6</h2>
+            <p>Prohibits involuntary servitude in prisons, effectively banning forced prison labor​</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/6/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: No</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 32</h2>
+            <p>Increases California's minimum wage to $18 per hour, up from the current $16​</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/32/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: No</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 33</h2>
+            <p>Repeals the Costa-Hawkins Rental Housing Act, giving local governments more flexibility to implement rent control​</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/33/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: No</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 34</h2>
+            <p>Requires that certain healthcare providers use 98% of their revenue from discounted drug programs directly for patient care</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/34/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: No position stated</span> | <span class="republican">Republicans endorse: Yes</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 35</h2>
+            <p>Extends a tax on managed healthcare plans to fund Medi-Cal, which is set to expire in 2026</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/35/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: Yes</span> | <span class="republican">Republicans endorse: Yes</span></p>
+        </div>
+        
+        <div class="proposition">
+            <h2>Proposition 36</h2>
+            <p>Increases penalties for repeat offenders of certain theft and drug crimes, reclassifying some as felonies</p>
+            <a href="https://voterguide.sos.ca.gov/propositions/36/index.htm" target="_blank" class="button">More Information</a>
+            <p class="endorsement"><span class="democrat">Democrats endorse: No</span> | <span class="republican">Republicans endorse: Yes</span></p>
+        </div>
+
+        <div class="resources">
+            <a href="https://calmatters.org/california-voter-guide-2024/propositions/" target="_blank" class="button" target="_blank">More Information</a>
+        </div>
+    </div>
+    <a href="{{ url_for('candidates') }}" class="back-button">Back to Candidates</a>
+</body>
+</html>

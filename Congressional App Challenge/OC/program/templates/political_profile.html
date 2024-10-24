@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Political Stance Sliders</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+    .slider-container {
+      width: 80%;
+      margin: 20px auto;
+    }
+    .value-container {
+      position: relative;
+      width: 100%;
+      height: 20px;
+      margin-bottom: 10px;
+    }
+    .value-display {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+    }
+    .label-container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 5px;
+    }
+    .slider {
+      width: 100%;
+      height: 20px;
+      cursor: pointer;
+    }
+    .nav-button {
+      font-size: 18px;
+      padding: 10px 20px;
+    }
+    .instructions {
+      width: 80%;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 2rem;
+    }
+    .auth-buttons a {
+      padding: 0.9rem 1.8rem;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+    .auth-buttons2 {
+      display: flex;
+      justify-content: center;
+      gap: 40px; /* Add space between the buttons */
+      margin-top: 80px; /* Adjust this value to shift downward as needed */
+    }
+    .login-button a, .signup-button a {
+      font-size: 24px;
+      padding: 15px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .login-button a {
+      color: #000000;
+      border: 2px solid #000000;
+    }
+    .login-button a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .signup-button a {
+      background-color: #2ecc71;
+      color: white;
+    }
+    .signup-button a:hover {
+      background-color: #27ae60;
+    }
+    .topbar {
+      height: 35px; 
+      line-height: 1.8;
+      overflow: visible;
+    }
+  </style>
+</head>
+<body>
+  {% include 'topbar.html' %}
+
+  {% if logged_in %}
+  <script>
+    function createSlider(containerId, sliderId, valueDisplayId, leftLabel, rightLabel) {
+      const container = document.getElementById(containerId);
+      const slider = document.getElementById(sliderId);
+      const valueDisplay = document.getElementById(valueDisplayId);
+
+      function updateSliderColor() {
+        const value = slider.value;
+        if (value >= 6) {
+          slider.style.accentColor = 'red';
+        } else if (value <= 4) {
+          slider.style.accentColor = 'blue';
+        } else {
+          slider.style.accentColor = ''; 
+        }
+      }
+
+      slider.oninput = function() {
+        valueDisplay.textContent = this.value;
+        updateSliderColor();
+      }
+
+      updateSliderColor();
+      valueDisplay.textContent = slider.value;
+
+      const labelContainer = container.querySelector('.label-container');
+      labelContainer.innerHTML = `<span>${leftLabel}</span><span>${rightLabel}</span>`;
+    }
+  </script>
+<form id="politicalProfileForm">
+  <div id="issueContainer">
+    <div class="slider-container" id="abortionContainer">
+      <h2>Abortion</h2>
+      <div class="value-container">
+        <span id="abortionValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="abortion" id="abortionSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="abortionInstructions">
+      Instructions for Abortion issue:
+      <ul>
+        <li>This slider is used to determine your stance on abortion.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-choice and 10 being the most pro-life.</li>
+        <li>Please select the option that best represents your stance on abortion.</li>
+        <br>
+        <li>Abortion is the termination of a pregnancy before the fetus is able to survive outside the womb.</li>
+        <li>Pro-choice means that you believe that women should have the right to choose whether to have an abortion.</li>
+        <li>Pro-life means that you believe that abortion should be illegal or at least very difficult to obtain.</li>
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="gun_controlContainer" style="display: none;">
+      <h2>Gun Control</h2>
+      <div class="value-container">
+        <span id="gun_controlValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="gun_control" id="gun_controlSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="gun_controlInstructions" style="display: none;">
+      Instructions for Gun Control issue:
+      <ul>
+        <li>This slider is used to determine your stance on gun control.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-gun control and 10 being the most anti-gun control.</li>
+        <li>Please select the option that best represents your stance on gun control.</li>
+        <br>
+        <li>Gun control is the regulation of firearms and ammunition.</li>
+        <li>Pro-gun control means that you believe that guns should be heavily regulated and that only law-abiding citizens should be allowed to own them.</li>
+        <li>Anti-gun control means that you believe that guns should be freely available to anyone who wants them, and that the government should not interfere with this right.</li>
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="immigrationContainer">
+      <h2>Immigration</h2>
+      <div class="value-container">
+        <span id="immigrationValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="immigration" id="immigrationSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="immigrationInstructions">
+      Instructions for Immigration issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on immigration.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most open borders and 10 being the most closed borders.</li>
+        <li>Please select the option that best represents your stance on immigration.</li>
+        <br>
+        <li> Immigration is the movement of people from one country to another.</li>
+        <li>Pro-immigration means that you believe that people should be allowed to move freely between countries with minimal restrictions.</li>
+        <li>Anti-immigration means that you believe that people should not be allowed to move freely between countries and that the government should impose strict restrictions on immigration.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="healthcareContainer">
+      <h2>Healthcare</h2>
+      <div class="value-container">
+        <span id="healthcareValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="healthcare" id="healthcareSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="healthcareInstructions">
+      Instructions for Healthcare issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on healthcare.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-public healthcare and 10 being the most anti-public healthcare.</li>
+        <li>Please select the option that best represents your stance on healthcare.</li>
+        <br>
+        <li> Healthcare is the provision of medical care and services to individuals and communities.</li>
+        <li>Pro-public healthcare means that you believe that the government should provide healthcare to all citizens, regardless of their ability to pay.</li>
+        <li>Anti-public healthcare means that you believe that healthcare should be provided by private companies and that the government should not interfere with this right.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="taxesContainer">
+      <h2>Taxes</h2>
+      <div class="value-container">
+        <span id="taxesValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="taxes" id="taxesSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="taxesInstructions">
+      Instructions for Taxes issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on taxes.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-taxes and 10 being the most anti-taxes.</li>
+        <li>Please select the option that best represents your stance on taxes.</li>
+        <br>
+        <li> Taxes are the compulsory financial charges imposed on individuals and businesses by the government.</li>
+        <li>Pro-taxes means that you believe that taxes should be higher and that the government should use the money to fund public services and infrastructure.</li>
+        <li>Anti-taxes means that you believe that taxes should be lower and that the government should not interfere with this right.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="climate_changeContainer">
+      <h2>Climate Change</h2>
+      <div class="value-container">
+        <span id="climateChangeValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="climate_change" id="climateChangeSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="climateChangeInstructions">
+      Instructions for Climate Change issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on climate change.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-climate change and 10 being the most anti-climate change.</li>
+        <li>Please select the option that best represents your stance on climate change.</li>
+        <br>
+        <li> Climate change is the long-term alteration of temperature and weather patterns.</li>
+        <li>Pro-climate change means that you believe that the government should take action to address climate change and that individuals should reduce their carbon footprint.</li>
+        <li>Anti-climate change means that you believe that climate change is a natural phenomenon and that the government should not interfere with this right.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="lgbtq_rightsContainer">
+      <h2>LGBTQ+ Rights</h2>
+      <div class="value-container">
+        <span id="lgbtqRightsValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="lgbtq_rights" id="lgbtqRightsSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="lgbtqRightsInstructions">
+      Instructions for LGBTQ+ Rights issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on LGBTQ+ rights.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-LGBTQ+ rights and 10 being the most anti-LGBTQ+ rights.</li>
+        <li>Please select the option that best represents your stance on LGBTQ+ rights.</li>
+        <br>
+        <li> LGBTQ+ rights are the rights of lesbian, gay, bisexual, transgender, and queer individuals.</li>
+        <li>Pro-LGBTQ+ rights means that you believe that LGBTQ+ individuals should have the same rights and protections as everyone else.</li>
+        <li>Anti-LGBTQ+ rights means that you believe that LGBTQ+ individuals should not have the same rights and protections as everyone else.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="voting_rightsContainer">
+      <h2>Voting Rights</h2>
+      <div class="value-container">
+        <span id="votingRightsValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="voting_rights" id="votingRightsSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="votingRightsInstructions">
+      Instructions for Voting Rights issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on voting rights.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-voting rights and 10 being the most anti-voting rights.</li>
+        <li>Please select the option that best represents your stance on voting rights.</li>
+        <br>
+        <li> Voting rights are the rights of individuals to vote in elections.</li>
+        <li>Pro-voting rights means that you believe that everyone should have the right to vote.</li>
+        <li>Anti-voting rights means that you believe that only certain individuals should have the right to vote.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="marijuanaContainer">
+      <h2>Marijuana</h2>
+      <div class="value-container">
+        <span id="marijuanaValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="marijuana" id="marijuanaSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="marijuanaInstructions">
+      Instructions for Marijuana issue:
+      <ul></ul>
+        <li>This slider is used to determine your stance on marijuana.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-marijuana and 10 being the most anti-marijuana.</li>
+        <li>Please select the option that best represents your stance on marijuana.</li>
+        <br>
+        <li> Marijuana is the dried leaves and flowers of the hemp plant, which are used to make a drug.</li>
+        <li>Pro-marijuana means that you believe that marijuana should be legal and that the government should not interfere with this right.</li>
+        <li>Anti-marijuana means that you believe that marijuana should be illegal and that the government should interfere with this right.</li>
+  
+      </ul>
+    </div>
+</form>
+<form id="politicalProfileForm">
+    <div class="slider-container" id="educationContainer" style="display: none;">
+      <h2>Education</h2>
+      <div class="value-container">
+        <span id="educationValueDisplay" class="value-display">5</span>
+      </div>
+      <input type="range" min="0" max="10" value="5" name="education" id="educationSlider" class="slider">
+      <div class="label-container"></div>
+    </div>
+    <div class="instructions" id="educationInstructions" style="display: none;">
+      Instructions for Education issue:
+      <ul>
+        <li>This slider is used to determine your stance on education.</li>
+        <li>The slider ranges from 0 to 10, with 0 being the most pro-choice and 10 being the most pro-life.</li>
+        <li>Please select the option that best represents your stance on education.</li>
+        <br>
+        <li>Education is the process of teaching and learning.</li>
+        <li>Pro-education means that you believe that education should be publicly funded and accessible to all individuals.</li>
+        <li>Anti-education means that you believe that education should be privately funded and accessible only to those who can afford it.</li>
+      </ul>
+    </div>
+  </div>
+</form>
+  <script>
+    let currentPage = 0;
+    const pages = [
+      { name: 'abortion', id: 'abortionContainer', slider: 'abortionSlider', display: 'abortionValueDisplay', left: 'Pro-Choice', right: 'Pro-Life', instructions: 'abortionInstructions' },
+      { name: 'gun_control', id: 'gun_controlContainer', slider: 'gun_controlSlider', display: 'gun_controlValueDisplay', left: 'Pro-Gun Control', right: 'Anti-Gun Control', instructions: 'gun_controlInstructions' },
+      { name: 'immigration', id: 'immigrationContainer', slider: 'immigrationSlider', display: 'immigrationValueDisplay', left: 'Open Borders', right: 'Closed Borders', instructions: 'immigrationInstructions' },
+      { name: 'healthcare', id: 'healthcareContainer', slider: 'healthcareSlider', display: 'healthcareValueDisplay', left: 'Public', right: 'Private', instructions: 'healthcareInstructions' },
+      { name: 'taxes', id: 'taxesContainer', slider: 'taxesSlider', display: 'taxesValueDisplay', left: 'Higher Taxes', right: 'Lower Taxes', instructions: 'taxesInstructions' },
+      { name: 'climate_change', id: 'climate_changeContainer', slider: 'climateChangeSlider', display: 'climateChangeValueDisplay', left: 'A Major Concern', right: 'Not a Concern', instructions: 'climateChangeInstructions' },
+      { name: 'lgbtq_rights', id: 'lgbtq_rightsContainer', slider: 'lgbtqRightsSlider', display: 'lgbtqRightsValueDisplay', left: 'More Rights', right: 'Less Rights', instructions: 'lgbtqRightsInstructions' },
+      { name: 'voting_rights', id: 'voting_rightsContainer', slider: 'votingRightsSlider', display: 'votingRightsValueDisplay', left: 'Expand', right: 'Restrict', instructions: 'votingRightsInstructions' },
+      { name: 'marijuana', id: 'marijuanaContainer', slider: 'marijuanaSlider', display: 'marijuanaValueDisplay', left: 'Legal', right: 'Illegal', instructions: 'marijuanaInstructions' },
+      { name: 'education', id: 'educationContainer', slider: 'educationSlider', display: 'educationValueDisplay', left: 'Public Focus', right: 'Private Focus', instructions: 'educationInstructions' }
+    ];
+
+    function showPage(index) {
+      pages.forEach((page, i) => {
+        document.getElementById(page.id).style.display = i === index ? 'block' : 'none';
+        document.getElementById(page.instructions).style.display = i === index ? 'block' : 'none';
+      });
+      createSlider(pages[index].id, pages[index].slider, pages[index].display, pages[index].left, pages[index].right);
+      
+      // Show or hide submit button and next button based on whether it's the last page
+      const submitButton = document.getElementById('submitButton');
+      const nextButton = document.getElementById('nextButton');
+      const prevButton = document.getElementById('prevButton');
+      if (submitButton && nextButton && prevButton) {
+        const isLastPage = index === pages.length - 1;
+        const isFirstPage = index === 0;
+        submitButton.style.display = isLastPage ? 'inline-block' : 'none';
+        nextButton.style.display = isLastPage ? 'none' : 'inline-block';
+        prevButton.style.display = isFirstPage ? 'none' : 'inline-block';
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    function submitData() {
+      const forms = document.querySelectorAll('form[id="politicalProfileForm"]');
+      const formData = new FormData();
+      
+      forms.forEach(form => {
+        for (const [key, value] of new FormData(form)) {
+          formData.append(key, value);
+        }
+      });
+      
+      fetch('/submit_political_profile', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        window.location.href = '/political_profile';
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred while submitting your profile. Please try again.');
+      });
+    }
+
+    const navButtons = document.createElement('div');
+    navButtons.style.cssText = `
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      display: flex;
+      gap: 20px;
+    `;
+    navButtons.innerHTML = `
+      <button id="prevButton" class="nav-button" onclick="prevPage()">Previous</button>
+      <button id="nextButton" class="nav-button" onclick="nextPage()">Next</button>
+      <button id="submitButton" class="nav-button" onclick="submitData()" style="display: none;">Submit</button>
+    `;
+    document.body.appendChild(navButtons);
+
+    showPage(currentPage);
+  </script>
+
+  {% else %}
+  <div class="login-container">
+    <h2>Please log in or sign up to access your Political Profile</h2>
+    <div class="auth-buttons2">
+      <div class="login-button">
+          <a href="#" onclick="showLoginOverlay()">Log In</a>
+      </div>
+      <div class="signup-button">
+          <a href="#" onclick="showSignupOverlay()">Sign Up</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<div id="loginOverlay" class="overlay">
+  <div class="overlay-content">
+    <h2>Login</h2>
+    <form action="/login" method="post">
+        <input type="text" placeholder="Username" name="username" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <input type="submit" value="Log In">
+    </form>
+    <button onclick="hideOverlay('loginOverlay')">Close</button>
+  </div>
+</div>
+
+<div id="signupOverlay" class="overlay">
+  <div class="overlay-content">
+    <h2>Sign Up</h2>
+    <form action="/signup" method="post">
+        <input type="text" placeholder="Username" name="username" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <input type="password" placeholder="Confirm Password" name="confirm-pass" required>
+        <input type="submit" value="Sign Up">
+    </form>
+    <button onclick="hideOverlay('signupOverlay')">Close</button>
+  </div>
+</div>
+
+<script>
+function showLoginOverlay() {
+  document.getElementById('loginOverlay').style.display = 'flex';
+}
+
+function showSignupOverlay() {
+  document.getElementById('signupOverlay').style.display = 'flex';
+}
+
+function hideOverlay(overlayId) {
+  document.getElementById(overlayId).style.display = 'none';
+}
+</script>
+
+<script>
+function showLoginForm() {
+  document.getElementById('loginOverlay').style.display = 'block';
+}
+
+function hideLoginForm() {
+  document.getElementById('loginOverlay').style.display = 'none';
+}
+
+function showSignupForm() {
+  document.getElementById('signupOverlay').style.display = 'block';
+}
+
+function hideSignupForm() {
+  document.getElementById('signupOverlay').style.display = 'none';
+}
+</script>
+</body>
+</html>

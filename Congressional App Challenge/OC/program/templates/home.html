@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoteMatch45</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("{{ url_for('static', filename='image/VoteMatchBanner.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-title {
+            font-size: 5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .purpose-section {
+            padding: 5rem 2rem;
+            background-color: #f8f9fa;
+        }
+        .purpose-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        .news-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("{{ url_for('static', filename='image/CongressionalMap.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .news-title {
+            font-size: 4rem;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+            background-color: rgba(255,255,255,0.7);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+        }
+        .news-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .news-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .news-item h3 {
+            margin-top: 0;
+        }
+        .news-item .date {
+            font-style: italic;
+            color: #666;
+        }
+        #loading {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+        .topbar {
+            height: 35px; 
+            line-height: 1.8;
+            overflow: visible;
+            position: relative;
+            z-index: 1000;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .footer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .footer p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        #load-more {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #1877f2;
+            color: #ffffff;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        #load-more:hover {
+            background-color: #166fe5;
+        }
+        .load-more-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'topbar.html' %}
+
+    <div class="hero">
+        <h1 class="hero-title"></h1>
+    </div>
+
+    <section class="purpose-section">
+        <div class="purpose-content">
+            <h2>Our Purpose</h2>
+            <p>
+                VoteMatch45 is dedicated to empowering voters in the 45th Congressional District with comprehensive, nonpartisan information about candidates and issues. Our mission is to bridge the gap between voters and the political process, making it easier for citizens to make informed decisions at the ballot box. By providing a user-friendly platform that matches voters with candidates based on their values and priorities, we aim to increase civic engagement and strengthen democratic participation across the state. Whether you're a first-time voter or a seasoned political enthusiast, VoteMatch45 is your trusted companion in navigating the complex landscape of California politics.
+            </p>
+            <p>
+                Disclaimer: This app lists facts and sources about candidates; however, it will not recommend any specific candidate.
+            </p>
+        </div>
+    </section>
+
+    <div class="news-section">
+        <h2 class="news-title">45th Congressional District News</h2>
+    </div>
+
+    <section class="purpose-section">
+        <div class="news-content">
+            <p>
+                Stay informed about the latest news and developments in the 45th Congressional District. Our news feed provides up-to-date information on local issues, candidate activities, and important events that impact our community. Check back regularly for the most recent updates and stay engaged with the political landscape of our district.
+            </p>
+            <div id="loading">Loading news articles...</div>
+            <div id="news-container"></div>
+            <button id="load-more" style="display: none;">Load More Articles</button>
+            <p class="load-more-note">Note: Loading additional articles may take up to 30 seconds. Thank you for your patience.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Credits and Contact Information</h3>
+            <p>VoteMatch45 was developed by Kevin Tran of Garden Grove, CA.</p>
+            <p>Special thanks to Angelly Pham for the logo and banner design</p>
+            <p>For inquiries or support, please contact me at: 25ktran8@gmail.com</p>
+            <p>Github: <a href="https://github.com/Kevii3214/VoteMatch45">https://github.com/Kevii3214/VoteMatch45</a></p>
+            <p>Disclaimer: All facts about candidates are from their official websites and the additional resources listed below them</p>
+            <p>&copy; 2024 VoteMatch45. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const articlesPerPage = 5;
+            let loadedArticles = new Set();
+
+            function fetchArticles(page) {
+                fetch(`/fetch_articles?page=${page}&per_page=${articlesPerPage}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const newsContainer = document.getElementById('news-container');
+                        const loading = document.getElementById('loading');
+                        const loadMoreButton = document.getElementById('load-more');
+                        loading.style.display = 'none';
+
+                        if (data.titles && data.titles.length > 0) {
+                            let newArticlesAdded = false;
+                            for (let i = 0; i < data.titles.length; i++) {
+                                if (!loadedArticles.has(data.urls[i])) {
+                                    const newsItem = document.createElement('div');
+                                    newsItem.className = 'news-item';
+                                    newsItem.innerHTML = `
+                                        <h3><a href="${data.urls[i]}" target="_blank">${data.titles[i]}</a></h3>
+                                        <p class="date">${data.dates[i]}</p>
+                                        <p>${data.contents[i]}</p>
+                                    `;
+                                    newsContainer.appendChild(newsItem);
+                                    loadedArticles.add(data.urls[i]);
+                                    newArticlesAdded = true;
+                                }
+                            }
+                            loadMoreButton.style.display = 'block';
+                        } else {
+                            if (page === 1) {
+                                newsContainer.innerHTML = '<p>No recent news available at the moment. Please check back later.</p>';
+                            }
+                            loadMoreButton.style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        const loading = document.getElementById('loading');
+                        loading.textContent = 'Error loading news articles. Please try again later.';
+                    });
+            }
+
+            fetchArticles(currentPage);
+
+            document.getElementById('load-more').addEventListener('click', function() {
+                currentPage++;
+                fetchArticles(currentPage);
+            });
+
+            //refreshes every 5 mins
+            setInterval(() => {
+                currentPage = 1;
+                loadedArticles.clear();
+                document.getElementById('news-container').innerHTML = '';
+                fetchArticles(currentPage);
+            }, 300000);
+        });
+    </script>
+</body>
+</html>

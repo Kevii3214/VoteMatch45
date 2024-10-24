@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Bar</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            font-size: 19px;
+            line-height: 1.8;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.8rem 3.5rem;
+            background-color: #3498db;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1000;
+        }
+        .topbar nav ul {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .topbar nav ul li {
+            margin-right: 2.5rem;
+        }
+        .topbar nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            font-size: 1.2rem;
+        }
+        .topbar nav ul li a:hover {
+            color: #f1c40f;
+        }
+        .topbar .auth-buttons {
+            display: flex;
+            gap: 2rem;
+        }
+        .topbar .auth-buttons a {
+            padding: 0.9rem 1.8rem;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        .topbar .login-button a {
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+        .topbar .signup-button a {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .topbar .login-button a:hover, .topbar .signup-button a:hover {
+            background-color: #f1c40f;
+            color: #2c3e50;
+        }
+        .topbar .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .topbar .user-info span {
+            margin-right: 1.8rem;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+        .login-form, .signup-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 3.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+            width: 450px;
+        }
+        .login-form h2, .signup-form h2 {
+            margin-top: 0;
+            margin-bottom: 2.5rem;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.1rem;
+        }
+        .login-form input, .signup-form input {
+            width: calc(100% - 2.4rem);
+            padding: 1.2rem;
+            margin-bottom: 1.8rem;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            transition: border-color 0.3s ease;
+            text-align: center;
+        }
+        .login-form input:focus, .signup-form input:focus {
+            border-color: #e74c3c;
+            outline: none;
+        }
+        .login-form input[type="submit"], .signup-form input[type="submit"] {
+            width: 100%;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+        .login-form input[type="submit"]:hover, .signup-form input[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            top: 100%;
+            left: 0;
+        }
+        .dropdown-content a {
+            color: #2c3e50;
+            padding: 18px 22px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1c40f;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown .dropbtn {
+            cursor: pointer;
+        }
+        .dropdown-content a.orange-county {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        .dropdown-content a.la-county {
+            color: #9b59b6;
+            font-weight: bold;
+        }
+        .dropdown-content a.orange-county:hover,
+        .dropdown-content a.la-county:hover {
+            color: #2c3e50;
+        }
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+        .form-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 29px;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-btn:hover {
+            color: #e74c3c;
+        }
+        /* New styles to ensure dropdown is visible */
+        .topbar {
+            position: relative;
+            z-index: 1100; /* Increased z-index */
+        }
+        .dropdown-content {
+            z-index: 1101; /* Ensure it's above the topbar */
+            background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/candidates">Compare Candidates</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Voting Centers</a>
+                    <div class="dropdown-content">
+                        <a href="https://ocvote.gov/elections/vote-center-locations" target="_blank" class="orange-county">Orange County</a>
+                        <a href="https://locator.lavote.gov/locations/vc" target="_blank" class="la-county">LA County</a>
+                    </div>
+                </li>
+                <li><a href="https://registertovote.ca.gov/" target="_blank">Register to Vote</a></li>
+                <li><a href="/political_profile">Your Political Profile</a></li>
+            </ul>
+        </nav>
+        {% if logged_in %}
+            <div class="user-info">
+                <span>Welcome, <username>{{ session['current_user'] }}</username></span>
+                <a href="logged_out.html" style="color: #ffffff; text-decoration: none;">Logout</a>
+            </div>
+        {% else %}
+            <div class="auth-buttons">
+                <div class="login-button">
+                    <a href="#" onclick="showLoginForm()">Log In</a>
+                </div>
+                <div class="signup-button">
+                    <a href="#" onclick="showSignupForm()">Sign Up</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="loginOverlay" class="overlay">
+        <div class="login-form">
+            <span class="close-btn" onclick="hideLoginForm()">&times;</span>
+            <h2>Login</h2>
+            <form action="/login" method="post">
+                <input type="text" placeholder="Username" name="username" required>
+                <input type="password" placeholder="Password" name="password" required>
+                <input type="submit" value="Log In">
+            </form>
+            <div class="form-footer">
+                Don't have an account? <a href="#" onclick="hideLoginForm(); showSignupForm();">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="signupOverlay" class="overlay">
+        <div class="signup-form">
+            <span class="close-btn" onclick="hideSignupForm()">&times;</span>
+            <h2>Sign Up</h2>
+            <form action="/signup" method="post">
+                <input type="text" placeholder="Username" name="username" required>
+                <input type="password" placeholder="Password" name="password" required>
+                <input type="password" placeholder="Confirm Password" name="confirm-pass" required>
+                <input type="submit" value="Sign Up">
+            </form>
+            <div class="form-footer">
+                Already have an account? <a href="#" onclick="hideSignupForm(); showLoginForm();">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLoginForm() {
+            document.getElementById('loginOverlay').style.display = 'block';
+        }
+
+        function hideLoginForm() {
+            document.getElementById('loginOverlay').style.display = 'none';
+        }
+
+        function showSignupForm() {
+            document.getElementById('signupOverlay').style.display = 'block';
+        }
+
+        function hideSignupForm() {
+            document.getElementById('signupOverlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

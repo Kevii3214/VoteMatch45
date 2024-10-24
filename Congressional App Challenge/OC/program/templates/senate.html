@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senate Candidates</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 20px;
+        }
+        .candidate {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 45%;
+        }
+        h1 {
+            color: #1877f2;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #1877f2;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin-bottom: 15px;
+        }
+        .info strong {
+            color: #4b4f56;
+        }
+        .topbar {
+            height: 35px;
+            line-height: 1.8;
+            overflow: visible;
+            position: relative;
+            z-index: 1000;
+        }
+        .candidate-photo {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .photo-frame {
+            width: 250px;
+            height: 250px;
+            border: 5px solid;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+        }
+        .republican {
+            border-color: #FF0000;
+        }
+        .democrat {
+            border-color: #0000FF;
+        }
+        .more-info-button {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background-color: #1877f2;
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .more-info-button:hover {
+            background-color: #166fe5;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #333333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #555555;
+        }
+        .candidate-name {
+            color: #1877f2;
+            text-decoration: none;
+        }
+        .candidate-name:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'topbar.html' %}
+    <h1>Senate Candidates</h1>
+    <div class="container">
+        <div class="candidate">
+            <div class="photo-frame democrat">
+                <img src="{{ url_for('static', filename='image/AdamSchiff.png') }}" alt="Adam Schiff" class="candidate-photo">
+            </div>
+            <h2><a href="https://adamschiff.com/" class="candidate-name" target="_blank">Adam Schiff</a></h2>
+            <div class="info"><strong>Party:</strong> Democratic</div>
+            <div class="info"><strong>Current Position:</strong> U.S. Representative for California's 30th congressional district</div>
+            <div class="info"><strong>Experience:</strong> Member of the U.S. House of Representatives since 2001, former California State Senator</div>
+            <div class="info"><strong>Key Issues:</strong> National security, healthcare reform, environmental protection</div>
+        </div>
+        <div class="candidate">
+            <div class="photo-frame republican">
+                <img src="{{ url_for('static', filename='image/SteveGarvey.png') }}" alt="Steve Garvey" class="candidate-photo">
+            </div>
+            <h2><a href="https://stevegarvey.com/" class="candidate-name" target="_blank">Steve Garvey</a></h2>
+            <div class="info"><strong>Party:</strong> Republican</div>
+            <div class="info"><strong>Previous Position:</strong> Professional baseball player</div>
+            <div class="info"><strong>Experience:</strong> 19-year career in Major League Baseball, philanthropic work</div>
+            <div class="info"><strong>Key Issues:</strong> Economic growth, public safety, education reform</div>
+        </div>
+    </div>
+    <a href="https://calmatters.org/california-voter-guide-2024/us-senate/" class="more-info-button" target="_blank">More Information</a>
+    <a href="{{ url_for('candidates') }}" class="back-button">Back to Candidates</a>
+</body>
+</html>
